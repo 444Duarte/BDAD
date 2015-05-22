@@ -53,8 +53,7 @@ CREATE TABLE Nacionalidade(
 );
 
 CREATE TABLE Autor(
-	idAutor 	INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idPessoa	INTEGER	 	REFERENCES Pessoa(idPessoa)
+	idPessoa	INTEGER	 	PRIMARY KEY 	REFERENCES Pessoa(idPessoa)
 );
 
 CREATE TABLE ClubeLeitores(
@@ -62,15 +61,13 @@ CREATE TABLE ClubeLeitores(
 );
 
 CREATE TABLE Cliente(
-	idCliente 	INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idPessoa 	INTEGER	 	REFERENCES Pessoa(idPessoa),
+	idPessoa 	INTEGER	 	PRIMARY KEY 	REFERENCES Pessoa(idPessoa),
 	morada 		TEXT,
 	nomeClube 	TEXT 		REFERENCES ClubeLeitores(nome)
 );
 
 CREATE TABLE Funcionario(
-	idFuncionario		INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idPessoa			INTEGER		REFERENCES Pessoa(idPessoa),
+	idPessoa			INTEGER		PRIMARY KEY 	REFERENCES Pessoa(idPessoa),
 	dataEmpregue		DATE,
 	nif					INTEGER,
 	morada				TEXT,
@@ -78,27 +75,24 @@ CREATE TABLE Funcionario(
 );
 
 CREATE TABLE Actor(
-	idActor				INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idPessoa			INTEGER		REFERENCES Pessoa(idPessoa),
+	idPessoa			INTEGER		PRIMARY KEY 	REFERENCES Pessoa(idPessoa),
 	numeroOscares		INTEGER,
 	numFilmesParticipou	INTEGER
 );	
 
 CREATE TABLE Realizador(
-	idRealizador		INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idPessoa			INTEGER	 	REFERENCES Pessoa(idPessoa),
+	idPessoa			INTEGER	 	PRIMARY KEY 	REFERENCES Pessoa(idPessoa),
 	numFilmesRealizados	INTEGER
 );
 
 CREATE TABLE Pertence(
-	idCliente 	INTEGER 	REFERENCES Cliente(idCliente),
-	nomeClube 	INTEGER  	REFERENCES ClubeLeitores(nome),
-	PRIMARY KEY (idCliente, nomeClube)
+	idPessoa 	INTEGER 	PRIMARY KEY 	REFERENCES Cliente(idPessoa),
+	nomeClube 	TEXT  		REFERENCES ClubeLeitores(nome)
 );
 
-
 CREATE TABLE Genero(
-	nome 	TEXT 	PRIMARY KEY 	NOT NULL
+	idGenero 	INTEGER 	PRIMARY KEY 	AUTOINCREMENT,
+	nome 		TEXT 	
 );
 
 CREATE TABLE Item(
@@ -107,33 +101,35 @@ CREATE TABLE Item(
 	nome  			TEXT		NOT NULL,
 	numeroTotal	 	INTEGER		NOT NULL,
 	idEditora		INTEGER 	REFERENCES Editora(idEditora)	NOT NULL, 
-	idPrateleira	INTEGER		REFERENCES Prateleira(idPrateleira)	NOT NULL,
-	genero 			TEXT 		REFERENCES Genero(nome) NOT NULL,
+	idGenero 		INTEGER 	REFERENCES Genero(idGenero) NOT NULL,
 	idFaixaEtaria	INTEGER 	REFERENCES FaixaEtaria(idFaixaEtaria) NOT NULL
 );
 
 CREATE TABLE Livro(
-	idLivro		INTEGER		PRIMARY KEY 	AUTOINCREMENT,
-	idItem		INTEGER		REFERENCES Item(idItem),
+	idItem		INTEGER		PRIMARY KEY		REFERENCES Item(idItem),
 	edicao		INTEGER,
 	isbn		INTEGER		NOT NULL
 );
 
 CREATE TABLE Jogo(
-	idJogo					INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idItem					INTEGER		REFERENCES Item(idItem) NOT NULL,
-	numeroMaximoJogadores	INTEGER		NOT NULL,
-	plataforma 				TEXT 		REFERENCES Plataforma(nome) NOT NULL
+	idItem					INTEGER		PRIMARY KEY 	REFERENCES Item(idItem) ,
+	numeroMaximoJogadores	INTEGER		NOT NULL
 );
 
 CREATE TABLE Filme(
-	idFilme		INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	idItem		INTEGER		REFERENCES Item(idItem),
+	idItem		INTEGER		PRIMARY KEY		REFERENCES Item(idItem),
 	duracao		INTEGER		NOT NULL
 );
 
 CREATE TABLE Plataforma(
-	nome 	TEXT 	PRIMARY KEY		NOT NULL
+	idPlataforma 	INTEGER 	PRIMARY KEY 	AUTOINCREMENT,		
+	nome 			TEXT
+);
+
+CREATE TABLE JogoPlataforma(
+	idItem 			INTEGER 	REFERENCES Jogo(idItem),
+	idPlataforma 	INTEGER 	REFERENCES Plataforma(idPlataforma),
+	PRIMARY KEY (idItem, idPlataforma)
 );
 
 CREATE TABLE FaixaEtaria(
@@ -143,21 +139,21 @@ CREATE TABLE FaixaEtaria(
 );
 
 CREATE TABLE Escreveu(
-	idAutor 	INTEGER		REFERENCES Autor(idAutor),
-	idLivro		INTEGER		REFERENCES Livro(idLivro),
-	PRIMARY KEY	(idAutor, idLivro)
+	idPessoa 	INTEGER		REFERENCES Autor(idPessoa),
+	idItem		INTEGER		REFERENCES Livro(idItem),
+	PRIMARY KEY	(idItem)
 );
 
 CREATE TABLE Participa(
-	idActor		INTEGER		REFERENCES Actor(idActor),
-	idFilme		INTEGER		REFERENCES Filme(idFilme),
-	PRIMARY KEY (idActor, idFilme)
+	idPessoa		INTEGER		REFERENCES Actor(idPessoa),
+	idItem		INTEGER		REFERENCES Filme(idItem),
+	PRIMARY KEY (idPessoa, idItem)
 );
 
 CREATE TABLE Realizou(
-	idRealizador		INTEGER		REFERENCES Realizador(idRealizador),
-	idFilme		INTEGER		REFERENCES Filme(idFilme),
-	PRIMARY KEY (idRealizador, idFilme)
+	idPessoa		INTEGER		REFERENCES Realizador(idPessoa),
+	idItem		INTEGER		REFERENCES Filme(idItem),
+	PRIMARY KEY (idPessoa, idItem)
 );
 
 CREATE TABLE Editora(
@@ -169,7 +165,7 @@ CREATE TABLE Editora(
 CREATE TABLE Sediado(
 	idEditora		INTEGER 	REFERENCES Editora(idEditora),
 	pais 			TEXT		REFERENCES Pais(nome),
-	PRIMARY KEY (idEditora, pais)
+	PRIMARY KEY (idEditora)
 );
 
 CREATE TABLE Piso(
@@ -177,9 +173,9 @@ CREATE TABLE Piso(
 );
 
 CREATE TABLE FuncionarioPiso(
-	idFuncionario	INTEGER		REFERENCES Funcionario(idFuncionario),
+	idPessoa	INTEGER		REFERENCES Funcionario(idPessoa),
 	numero 			INTEGER		REFERENCES Piso(numero),
-	PRIMARY KEY (idFuncionario, numero)
+	PRIMARY KEY (idPessoa, numero)
 );
 
 CREATE TABLE Seccao(
@@ -189,16 +185,18 @@ CREATE TABLE Seccao(
 );
 
 CREATE TABLE Prateleira(
-	idPrateleira	INTEGER		PRIMARY KEY 	AUTOINCREMENT,
-	idSeccao		INTEGER 	REFERENCES Seccao(idSeccao)
+	nrPrateleira	INTEGER,
+	idSeccao		INTEGER 	REFERENCES Seccao(idSeccao),
+	idItem			INTEGER 	REFERENCES Item(idItem),
+	PRIMARY KEY (idItem)
 );
 
 CREATE TABLE Requisicao(
 	dataInicio		DATE 		NOT NULL,
 	dataEntrega		DATE,
-	idCliente		INTEGER		REFERENCES Cliente(idCliente),
+	idPessoa		INTEGER		REFERENCES Cliente(idPessoa),
 	idItem			INTEGER		REFERENCES Item(idItem),
-	PRIMARY KEY (idCliente, idItem)
+	PRIMARY KEY (idPessoa, idItem)
 );
 
 

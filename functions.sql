@@ -8,7 +8,7 @@ PRAGMA foreign_keys = ON;
 SELECT Item.nome, Pessoa.nome
 FROM Pessoa, Requisicao, Item, Cliente
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
-	  Cliente.idCliente = Requisicao.idCliente AND
+	  Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
 	  Requisicao.dataEntrega = NULL;
 
@@ -16,7 +16,7 @@ WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 SELECT Pessoa.nome, Item.nome, (julianday(date('now')) - julianday(Requisicao.dataInicio)) diasPassados
 FROM Pessoa, Requisicao, Item, Cliente
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
-	  Cliente.idCliente = Requisicao.idCliente AND
+	  Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
 	  Requisicao.dataEntrega = NULL AND
 	  diasPassados > 30;
@@ -44,7 +44,7 @@ WHERE idItem not in (
 	GROUP BY nome);
 
 /*Nacionalidade de todos os Clientes*/
-SELECT Pessoa.idPessoa, nome, pais
+SELECT Pessoa.idPessoa, Pessoa.nome, nomePais
 FROM Pessoa, Cliente, Nacionalidade
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 		Nacionalidade.idPessoa = Pessoa.idPessoa
