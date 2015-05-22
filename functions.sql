@@ -10,17 +10,16 @@ FROM Pessoa, Requisicao, Item, Cliente
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 	  Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
-	  Requisicao.dataEntrega = NULL;
+	  Requisicao.dataEntrega is NULL;
 
 /*Pessoas que estão em atraso na entrega de um item*/
-SELECT Pessoa.nome, Item.nome, (julianday(date('now')) - julianday(Requisicao.dataInicio)) diasPassados
+SELECT Pessoa.nome, Item.nome, (julianday(date('now')) - julianday(Requisicao.dataInicio)) as diasPassados
 FROM Pessoa, Requisicao, Item, Cliente
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 	  Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
-	  Requisicao.dataEntrega = NULL AND
+	  Requisicao.dataEntrega is NULL AND
 	  diasPassados > 30;
-
 /*nome do item e número de requisições*/
 SELECT nome, count(*)
 FROM Requisicao natural join Item

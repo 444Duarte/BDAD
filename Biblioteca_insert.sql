@@ -128,30 +128,30 @@ INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 20);
 INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 21);
 INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 22);
 /*AUTORES*/
-INSERT INTO Pessoa VALUES(0, 'Suzanne Collins', 1962-8-10);
-INSERT INTO Pessoa VALUES(1, 'J.K. Rowling', 1965-7-31);
-INSERT INTO Pessoa VALUES(2, 'Douglas Adams', 1952-5-11);
-INSERT INTO Pessoa VALUES(3, 'J.R.R. Tolkien', 1892-1-3);
-INSERT INTO Pessoa VALUES(4, 'Dan Brown', 1964-6-22);
+INSERT INTO Pessoa VALUES(0, 'Suzanne Collins', '1962-08-10');
+INSERT INTO Pessoa VALUES(1, 'J.K. Rowling', '1965-07-31');
+INSERT INTO Pessoa VALUES(2, 'Douglas Adams', '1952-05-11');
+INSERT INTO Pessoa VALUES(3, 'J.R.R. Tolkien', '1892-01-3');
+INSERT INTO Pessoa VALUES(4, 'Dan Brown', '1964-06-22');
 /*CLIENTES*/
-INSERT INTO Pessoa VALUES(5, 'Ricardo Ricardo', 1988-6-2);
-INSERT INTO Pessoa VALUES(6, 'Manuela Carvalhido', 1964-8-15);
-INSERT INTO Pessoa VALUES(7, 'Filipe Santos', 1995-2-14);
-INSERT INTO Pessoa VALUES(8, 'Orquidia Rodriguez', 1989-4-6);
-INSERT INTO Pessoa VALUES(9, 'Chuck Pintor', 1991-10-9);
-INSERT INTO Pessoa VALUES(10, 'Jose Leitao', 1959-9-12);
+INSERT INTO Pessoa VALUES(5, 'Ricardo Ricardo',' 1988-06-02');
+INSERT INTO Pessoa VALUES(6, 'Manuela Carvalhido', '1964-08-15');
+INSERT INTO Pessoa VALUES(7, 'Filipe Santos', '1995-02-14');
+INSERT INTO Pessoa VALUES(8, 'Orquidia Rodriguez', '1989-04-6');
+INSERT INTO Pessoa VALUES(9, 'Chuck Pintor', '1991-10-09');
+INSERT INTO Pessoa VALUES(10, 'Jose Leitao', '1959-09-12');
 /*FUNCIONÁRIOS*/
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(11, 'Josefa Castro', 1945-11-8);
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(12, 'Carol Silva', 1982-2-25);
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(13, 'Roberto Ortigão', 1964-8-7);
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(11, 'Josefa Castro', '1945-11-08');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(12, 'Carol Silva', '1982-02-25');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(13, 'Roberto Ortigão', '1964-08-07');
 /*REALIZADORES*/
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(14, 'Josefa Castro', 1933-5-5);
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(15, 'Carol Silva', 1981-1-21);
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(16, 'Roberto Ortigão', 1967-7-7);
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(14, 'Josefa Castro', '1933-05-5');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(15, 'Carol Silva', '1981-01-21');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(16, 'Roberto Ortigão', '1967-07-07');
 /*ATORES*/
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(17, 'Paul Walker', 1985-3-23);
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(18, 'Leonardo Di Caprio', 1971-3-2);
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(19, 'Nicolau Breyner', 1951-2-23);
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(17, 'Paul Walker', '1985-03-23');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(18, 'Leonardo Di Caprio', '1971-03-02');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(19, 'Nicolau Breyner', '1951-02-23');
 
 INSERT INTO Autor(idPessoa) VALUES(0);
 INSERT INTO Autor(idPessoa) VALUES(1);
@@ -183,9 +183,9 @@ INSERT INTO Pais VALUES('EUA');
 INSERT INTo Pais VALUES('Brazil');
 
 
-INSERT INTO Funcionario(idPessoa, dataEmpregue, nif, morada, salario) VALUES (11, 1992-6-19, 145979645, 'Rua Nova da Velha n89 1 Esq. Drt  Porto', 500);
-INSERT INTO Funcionario(idPessoa, dataEmpregue, nif, morada, salario) VALUES (12, 2002-9-19, 786912459, 'Rua Armando Saraiva n 15 Porto', 420);
-INSERT INTO Funcionario(idPessoa, dataEmpregue, nif, morada, salario) VALUES (13, 2004-9-21, 789494878, 'Rua Snoop Dog n420 Oporto', 420);
+INSERT INTO Funcionario(idPessoa, dataEmpregue, nif, morada, salario) VALUES (11, '1992-6-19', 145979645, 'Rua Nova da Velha n89 1 Esq. Drt  Porto', 500);
+INSERT INTO Funcionario(idPessoa, dataEmpregue, nif, morada, salario) VALUES (12, '2002-9-19', 786912459, 'Rua Armando Saraiva n 15 Porto', 420);
+INSERT INTO Funcionario(idPessoa, dataEmpregue, nif, morada, salario) VALUES (13, '2004-9-21', 789494878, 'Rua Snoop Dog n420 Oporto', 420);
 
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(0, 'EUA');
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(1, 'UK');
@@ -248,7 +248,7 @@ INSERT INTO Sediado(idEditora, pais) VALUES (4,'Portugal');
 INSERT INTO Sediado(idEditora, pais) VALUES (5,'UK');
 INSERT INTO Sediado(idEditora, pais) VALUES (6,'EUA');
 
-INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES(2015-2-28 ,2015-3-12, 7, 1);
-INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES(2015-4-20,NULL,7,4);
-INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES(2015-4-2,2015-4-15,8,18);
-INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES(2015-1-15,NULL,10,17);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-02-28', '2015-03-12', 7, 1);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-20', NULL,7,4);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-02', '2015-04-15',8,18);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-15', NULL,10,17);
