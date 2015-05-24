@@ -11,20 +11,20 @@ INSERT INTO Plataforma VALUES(2, 'Xbox360');
 INSERT INTO Plataforma VALUES(3, 'Xbox One');
 INSERT INTO Plataforma VALUES(4, 'PC');
 /*GENERO*/
-INSERT INTO Genero VALUES(0, 'Ação');
+INSERT INTO Genero VALUES(0, 'Acao');
 INSERT INTO Genero VALUES(1, 'Misterio');
 INSERT INTO Genero VALUES(2, 'Guerra');
 INSERT INTO Genero VALUES(3, 'Musical');
 INSERT INTO Genero VALUES(4, 'Drama');
-INSERT INTO Genero VALUES(5, 'Simulação');
+INSERT INTO Genero VALUES(5, 'Simulacao');
 INSERT INTO Genero VALUES(6, 'Plataforma');
 /*FAIXA ETARIA*/
-INSERT INTO FaixaEtaria VALUES(0,0,3);
-INSERT INTO FaixaEtaria VALUES(1,3,9);
-INSERT INTO FaixaEtaria VALUES(2,9,12);
-INSERT INTO FaixaEtaria VALUES(3,12,15);
-INSERT INTO FaixaEtaria VALUES(4,15,18);
-INSERT INTO FaixaEtaria VALUES(5,18,100);
+INSERT INTO FaixaEtaria(idFaixaEtaria, menorIdade, maiorIdade) VALUES(0,NULL,3);
+INSERT INTO FaixaEtaria(idFaixaEtaria, menorIdade, maiorIdade) VALUES(1,3,9);
+INSERT INTO FaixaEtaria(idFaixaEtaria, menorIdade, maiorIdade) VALUES(2,9,12);
+INSERT INTO FaixaEtaria(idFaixaEtaria, menorIdade, maiorIdade) VALUES(3,12,15);
+INSERT INTO FaixaEtaria(idFaixaEtaria, menorIdade, maiorIdade) VALUES(4,15,18);
+INSERT INTO FaixaEtaria(idFaixaEtaria, menorIdade, maiorIdade) VALUES(5,18,NULL);
 /*PISO*/
 INSERT INTO Piso VALUES(0);
 INSERT INTO Piso VALUES(1);
@@ -33,8 +33,8 @@ INSERT INTO Piso VALUES(3);
 /*SECCAO*/
 INSERT INTO Seccao VALUES(0,'Drama',0);
 INSERT INTO Seccao VALUES(1,'Acao/Guerra',1);
-INSERT INTO Seccao VALUES(2,'Misterio',2);
-INSERT INTO Seccao VALUES(3,'Jogos',0);
+INSERT INTO Seccao VALUES(2,'Misterio',0);
+INSERT INTO Seccao VALUES(3,'Jogos',2);
 INSERT INTO Seccao VALUES(4,'Cinema',2);
 /*EDITORA*/
 INSERT INTO Editora(idEditora, nome, morada) VALUES(0,'Scholastic Corporation', '557 Broadway New York, NY 10012 Estados Unidos');
@@ -46,13 +46,13 @@ INSERT INTO Editora(idEditora, nome, morada) VALUES(5,'Warner Brothers', 'Warner
 INSERT INTO Editora(idEditora, nome, morada) VALUES(6,'Electronic arts', 'Electronic Arts Inc. Privacy Policy Administrator 209 Redwood Shores Parkway Redwood City, CA 94065 United States');
 /*LIVROS*/
 INSERT INTO Item(idItem, anoPublicacao, nome, numeroTotal, idEditora, idGenero, idFaixaEtaria) VALUES(0, 2008, 'The Hunger Games', 3,1,1,4);
-INSERT INTO Item VALUES(1, 1997, 'Harry Potter and the Sorcerer''s Stone', 2,0,0,4);
-INSERT INTO Item VALUES(2, 1998, 'Harry Potter and the Chamber of Secrets', 2,0,0,4);
-INSERT INTO Item VALUES(3, 1999, 'Harry Potter and the Prisoner of Azkaban', 2,0,0,4);
-INSERT INTO Item VALUES(4, 2000, 'Harry Potter and the Goblet of Fire', 2,0,0,4);
-INSERT INTO Item VALUES(5, 2004, 'Harry Potter and the Order of the Phoenix', 2,0,0,4);
-INSERT INTO Item VALUES(6, 2005, 'Harry Potter and the Half-Blood Prince', 2,0,0,4);
-INSERT INTO Item VALUES(7, 2007, 'Harry Potter and the Deathly Hallows', 2,0,0,4);
+INSERT INTO Item VALUES(1, 1997, '1-Harry Potter and the Sorcerer''s Stone', 2,0,0,4);
+INSERT INTO Item VALUES(2, 1998, '2-Harry Potter and the Chamber of Secrets', 2,0,0,4);
+INSERT INTO Item VALUES(3, 1999, '3-Harry Potter and the Prisoner of Azkaban', 2,0,0,4);
+INSERT INTO Item VALUES(4, 2000, '4-Harry Potter and the Goblet of Fire', 2,0,0,4);
+INSERT INTO Item VALUES(5, 2004, '5-Harry Potter and the Order of the Phoenix', 2,0,0,4);
+INSERT INTO Item VALUES(6, 2005, '6-Harry Potter and the Half-Blood Prince', 2,0,0,4);
+INSERT INTO Item VALUES(7, 2007, '7-Harry Potter and the Deathly Hallows', 2,0,0,4);
 INSERT INTO Item VALUES(8, 1995, 'The Hitchhiker''s Guide to the Galaxy', 1,3,4,4);
 INSERT INTO Item VALUES(9, 1937, 'The Hobbit', 2,2,0,5);
 INSERT INTO Item VALUES(10, 1954, 'The Fellowship of the Ring', 3,2,0,5);
@@ -131,13 +131,13 @@ INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 22);
 INSERT INTO Pessoa VALUES(0, 'Suzanne Collins', '1962-08-10');
 INSERT INTO Pessoa VALUES(1, 'J.K. Rowling', '1965-07-31');
 INSERT INTO Pessoa VALUES(2, 'Douglas Adams', '1952-05-11');
-INSERT INTO Pessoa VALUES(3, 'J.R.R. Tolkien', '1892-01-3');
+INSERT INTO Pessoa VALUES(3, 'J.R.R. Tolkien', '1892-01-03');
 INSERT INTO Pessoa VALUES(4, 'Dan Brown', '1964-06-22');
 /*CLIENTES*/
-INSERT INTO Pessoa VALUES(5, 'Ricardo Ricardo',' 1988-06-02');
+INSERT INTO Pessoa VALUES(5, 'Ricardo Ricardo','1988-06-02');
 INSERT INTO Pessoa VALUES(6, 'Manuela Carvalhido', '1964-08-15');
 INSERT INTO Pessoa VALUES(7, 'Filipe Santos', '1995-02-14');
-INSERT INTO Pessoa VALUES(8, 'Orquidia Rodriguez', '1989-04-6');
+INSERT INTO Pessoa VALUES(8, 'Orquidia Rodriguez', '1989-04-06');
 INSERT INTO Pessoa VALUES(9, 'Chuck Pintor', '1991-10-09');
 INSERT INTO Pessoa VALUES(10, 'Jose Leitao', '1959-09-12');
 /*FUNCIONÁRIOS*/
@@ -202,12 +202,12 @@ INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(11, 'Portugal');
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(12, 'Portugal');
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(13, 'Portugal');
 
-INSERT INTO Pertence(idPessoa, nomeClube) VALUES(5, 'Amigos dos Livros');
+/*INSERT INTO Pertence(idPessoa, nomeClube) VALUES(5, 'Amigos dos Livros');
 INSERT INTO Pertence(idPessoa, nomeClube) VALUES(6, 'Amigos dos Livros');
 INSERT INTO Pertence(idPessoa, nomeClube) VALUES(7, 'Amigos dos Livros');
 INSERT INTO Pertence(idPessoa, nomeClube) VALUES(8, 'Amigos dos Livros');
 INSERT INTO Pertence(idPessoa, nomeClube) VALUES(9, 'Leitura em Conselho');
-INSERT INTO Pertence(idPessoa, nomeClube) VALUES(10, 'Leitura em Conselho');
+INSERT INTO Pertence(idPessoa, nomeClube) VALUES(10, 'Leitura em Conselho');*/
 
 INSERT INTO FuncionarioPiso(idPessoa,numero) VALUES(11,0);
 INSERT INTO FuncionarioPiso(idPessoa,numero) VALUES(12,1);
@@ -252,3 +252,4 @@ INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-0
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-20', NULL,7,4);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-02', '2015-04-15',8,18);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-15', NULL,10,17);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-05-23', NULL,6,1);

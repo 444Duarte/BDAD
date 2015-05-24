@@ -57,13 +57,13 @@ CREATE TABLE Autor(
 );
 
 CREATE TABLE ClubeLeitores(
-	nome 	TEXT 	PRIMARY KEY
+	nomeClube 	TEXT 	PRIMARY KEY
 );
 
 CREATE TABLE Cliente(
 	idPessoa 	INTEGER	 	PRIMARY KEY 	REFERENCES Pessoa(idPessoa),
 	morada 		TEXT,
-	nomeClube 	TEXT 		REFERENCES ClubeLeitores(nome)
+	nomeClube 	TEXT 		REFERENCES ClubeLeitores(nomeClube)
 );
 
 CREATE TABLE Funcionario(
@@ -134,8 +134,9 @@ CREATE TABLE JogoPlataforma(
 
 CREATE TABLE FaixaEtaria(
 	idFaixaEtaria	INTEGER		PRIMARY KEY		AUTOINCREMENT,
-	menorIdade		INTEGER		NOT NULL,
-	maiorIdade		INTEGER		NOT NULL
+	menorIdade		INTEGER,
+	maiorIdade		INTEGER
+	CHECK (menorIdade is not NULL OR maiorIdade is not NULL)
 );
 
 CREATE TABLE Escreveu(
