@@ -23,7 +23,6 @@ DROP TABLE IF EXISTS JogoPlataforma;
 DROP TABLE IF EXISTS Genero;
 DROP TABLE IF EXISTS ItemGenero;
 DROP TABLE IF EXISTS FaixaEtaria;
-DROP TABLE IF EXISTS ItemFaixaEtaria;
 DROP TABLE IF EXISTS Escreveu;
 DROP TABLE IF EXISTS Participa;
 DROP TABLE IF EXISTS Realizou;
@@ -197,7 +196,50 @@ CREATE TABLE Requisicao(
 	dataEntrega		DATE,
 	idPessoa		INTEGER		REFERENCES Cliente(idPessoa),
 	idItem			INTEGER		REFERENCES Item(idItem),
-	PRIMARY KEY (idPessoa, idItem)
+	PRIMARY KEY (dataInicio, idPessoa, idItem)
 );
 
+/*TRIGGERS*/
 
+
+/*APAGA A NOVA REQUISICAO SE O CLIENTE NAO TIVER IDADE SUFICIENTE PARA REQUISITAR O ITEM*/
+CREATE TRIGGER idadeInsuficiente
+AFTER INSERT ON Requisicao
+FOR EACH ROW
+WHEN 	(SELECT idade 
+		FROM (SELECT Cliente.idPessoa, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime('%m-%d', 'now') < strftime('%m-%d', dataNascimento))) as idade
+				FROM Pessoa, Cliente
+				WHERE 	Pessoa.idPessoa = Cliente.idPessoa
+				ORDER BY idade)
+		WHERE idPessoa = NEW.idPessoa)
+		<
+		(SELECT menorIdade
+		FROM Item, FaixaEtaria
+		WHERE 	Item.idItem = NEW.idItem AND
+				Item.idFaixaEtaria = FaixaEtaria.idFaixaEtaria)
+BEGIN
+	DELETE FROM Requisicao WHERE 	idPessoa = NEW.idPessoa AND
+									idItem = NEW.idItem AND
+									dataInicio = NEW.dataInicio;
+END
+;
+
+/*APAGA A NOVA REQUISICAO SE O CLIENTE JÁ TIVER 3 LIVROS QUE AINDA NAO ENTREGOU*/
+CREATE TRIGGER demasiadasRequisicoes
+AFTER INSERT ON Requisicao
+FOR EACH ROW
+WHEN(	(	SELECT	requisicoes
+			FROM (	SELECT Cliente.idPessoa, count(*) requisicoes
+					FROM Pessoa, Requisicao, Item, Cliente
+					WHERE Pessoa.idPessoa = Cliente.idPessoa AND
+						  Cliente.idPessoa = Requisicao.idPessoa AND
+						  Requisicao.idItem = Item.idItem AND
+						  Requisicao.dataEntrega is NULL
+					GROUP BY Pessoa.idPessoa)
+			WHERE idPessoa = NEW.idPessoa) >= 4)
+BEGIN
+	DELETE FROM Requisicao WHERE 	idPessoa = NEW.idPessoa AND
+									idItem = NEW.idItem AND
+									dataInicio = NEW.dataInicio;
+END
+;

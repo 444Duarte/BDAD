@@ -5,12 +5,14 @@
 PRAGMA foreign_keys = ON;
 
 /*Lista de itens actualmente requisitados e Cliente que requisitou*/
-SELECT Item.nome, Pessoa.nome
+SELECT Pessoa.nome AS Cliente, Item.nome as Item
 FROM Pessoa, Requisicao, Item, Cliente
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 	  Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
-	  Requisicao.dataEntrega is NULL;
+	  Requisicao.dataEntrega is NULL
+ORDER BY Cliente, Item;
+
 
 /*Pessoas que estão em atraso na entrega de um item*/
 SELECT Pessoa.nome, Item.nome, (julianday(date('now')) - julianday(Requisicao.dataInicio)) as diasPassados
@@ -19,7 +21,8 @@ WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 	  Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
 	  Requisicao.dataEntrega is NULL AND
-	  diasPassados > 30;
+	  diasPassados > 30
+ORDER BY diasPassados DESC;
 
 /*nome do item e número de requisições*/
 SELECT nome, count(*) requisicoes
@@ -92,7 +95,7 @@ ORDER BY Item.idItem;
 SELECT idItem, nome
 FROM Item, FaixaEtaria
 WHERE	Item.idFaixaEtaria = FaixaEtaria.idFaixaEtaria AND
-		menorIdade < 18;
+		(menorIdade < 18 OR menorIdade is NULL);
 
 /*Lista de Membros dos Clubes de Leitores*/
 SELECT ClubeLeitores.nomeClube, Pessoa.nome

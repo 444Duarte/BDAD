@@ -128,18 +128,18 @@ INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 20);
 INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 21);
 INSERT INTO Prateleira(nrPrateleira, idSeccao, idItem) VALUES(1, 4, 22);
 /*AUTORES*/
-INSERT INTO Pessoa VALUES(0, 'Suzanne Collins', '1962-08-10');
-INSERT INTO Pessoa VALUES(1, 'J.K. Rowling', '1965-07-31');
-INSERT INTO Pessoa VALUES(2, 'Douglas Adams', '1952-05-11');
-INSERT INTO Pessoa VALUES(3, 'J.R.R. Tolkien', '1892-01-03');
-INSERT INTO Pessoa VALUES(4, 'Dan Brown', '1964-06-22');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(0, 'Suzanne Collins', '1962-08-10');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(1, 'J.K. Rowling', '1965-07-31');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(2, 'Douglas Adams', '1952-05-11');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(3, 'J.R.R. Tolkien', '1892-01-03');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(4, 'Dan Brown', '1964-06-22');
 /*CLIENTES*/
-INSERT INTO Pessoa VALUES(5, 'Ricardo Ricardo','1988-06-02');
-INSERT INTO Pessoa VALUES(6, 'Manuela Carvalhido', '1964-08-15');
-INSERT INTO Pessoa VALUES(7, 'Filipe Santos', '1995-02-14');
-INSERT INTO Pessoa VALUES(8, 'Orquidia Rodriguez', '1989-04-06');
-INSERT INTO Pessoa VALUES(9, 'Chuck Pintor', '1991-10-09');
-INSERT INTO Pessoa VALUES(10, 'Jose Leitao', '1959-09-12');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(5, 'Ricardo Ricardo','1988-06-02');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(6, 'Manuela Carvalhido', '1964-08-15');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(7, 'Filipe Santos', '1995-02-14');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(8, 'Orquidia Rodriguez', '1989-04-06');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(9, 'Chuck Pintor', '1991-10-09');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(10, 'Jose Leitao', '1959-09-12');
 /*FUNCIONÁRIOS*/
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(11, 'Josefa Castro', '1945-11-08');
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(12, 'Carol Silva', '1982-02-25');
@@ -152,6 +152,8 @@ INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(16, 'Roberto Ortigão'
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(17, 'Paul Walker', '1985-03-23');
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(18, 'Leonardo Di Caprio', '1971-03-02');
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(19, 'Nicolau Breyner', '1951-02-23');
+/*CLIENTES(CONT)*/
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(20, 'Joao "Joao Gordo" Guarda', '2001-05-06');
 
 INSERT INTO Autor(idPessoa) VALUES(0);
 INSERT INTO Autor(idPessoa) VALUES(1);
@@ -176,6 +178,7 @@ INSERT INTO Cliente VALUES(7, 'Rua Elisio Santos n8 6 Dt. Porto', 'Amigos dos Li
 INSERT INTO Cliente VALUES(8, 'Rua To Darte n131 Porto', 'Leitura em Conselho');
 INSERT INTO Cliente VALUES(9, 'Praca Americo Balau n19, 12 Esq. Porto', 'Leitura em Conselho');
 INSERT INTO Cliente VALUES(10, 'Praca do Marques n69 Porto', 'Leitura em Conselho');
+INSERT INTO Cliente VALUES(20, 'Rua Arco do Principiado n43 Porto', 'Amigos dos Livros');
 
 INSERT INTO Pais VALUES('Portugal');
 INSERT INTO Pais VALUES('UK');
@@ -253,3 +256,6 @@ INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-0
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-02', '2015-04-15',8,18);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-15', NULL,10,17);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-05-23', NULL,6,1);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,20,16);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,10,1);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,10,2);
