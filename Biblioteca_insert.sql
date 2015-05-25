@@ -255,7 +255,23 @@ INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-0
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-20', NULL,7,4);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-02', '2015-04-15',8,18);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-15', NULL,10,17);
-INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-05-23', NULL,6,1);
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-05-23', NULL,6,4);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,20,16);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,10,1);
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,10,2);
+
+
+/***************INSERTS PARA TESTAR TRIGGERS***************/
+
+
+/*Cliente com tres requisicoes por entregar(dataEntraga = NULL) a tentar fazer uma quarta requisicao*/
+
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,10,3);
+
+/*Cliente com 14 anos a tentar requisitar um item com menorIdade=15*/
+
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,20,0);
+
+/*Cliente a tentar requisitar um item com 0 copias disponiveis para requisitar*/
+INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-02', '2015-04-15',5,17);
+

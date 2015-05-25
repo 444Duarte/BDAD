@@ -202,9 +202,9 @@ CREATE TABLE Requisicao(
 /*TRIGGERS*/
 
 
-/*APAGA A NOVA REQUISICAO SE O CLIENTE NAO TIVER IDADE SUFICIENTE PARA REQUISITAR O ITEM*/
+/*CANCELA A NOVA REQUISICAO SE O CLIENTE NAO TIVER IDADE SUFICIENTE PARA REQUISITAR O ITEM*/
 CREATE TRIGGER idadeInsuficiente
-AFTER INSERT ON Requisicao
+BEFORE INSERT ON Requisicao
 FOR EACH ROW
 WHEN 	(SELECT idade 
 		FROM (SELECT Cliente.idPessoa, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime('%m-%d', 'now') < strftime('%m-%d', dataNascimento))) as idade
@@ -218,15 +218,13 @@ WHEN 	(SELECT idade
 		WHERE 	Item.idItem = NEW.idItem AND
 				Item.idFaixaEtaria = FaixaEtaria.idFaixaEtaria)
 BEGIN
-	DELETE FROM Requisicao WHERE 	idPessoa = NEW.idPessoa AND
-									idItem = NEW.idItem AND
-									dataInicio = NEW.dataInicio;
+	SELECT RAISE(ABORT, "O cliente nao tem idade suficiente para requisitar este item");
 END
 ;
 
-/*APAGA A NOVA REQUISICAO SE O CLIENTE JÁ TIVER 3 LIVROS QUE AINDA NAO ENTREGOU*/
+/*CANCELA A NOVA REQUISICAO SE O CLIENTE JÁ TIVER 3 LIVROS QUE AINDA NAO ENTREGOU*/
 CREATE TRIGGER demasiadasRequisicoes
-AFTER INSERT ON Requisicao
+BEFORE INSERT ON Requisicao
 FOR EACH ROW
 WHEN(	(	SELECT	requisicoes
 			FROM (	SELECT Cliente.idPessoa, count(*) requisicoes
@@ -236,10 +234,32 @@ WHEN(	(	SELECT	requisicoes
 						  Requisicao.idItem = Item.idItem AND
 						  Requisicao.dataEntrega is NULL
 					GROUP BY Pessoa.idPessoa)
-			WHERE idPessoa = NEW.idPessoa) >= 4)
+			WHERE idPessoa = NEW.idPessoa) >= 3)
 BEGIN
-	DELETE FROM Requisicao WHERE 	idPessoa = NEW.idPessoa AND
-									idItem = NEW.idItem AND
-									dataInicio = NEW.dataInicio;
+	SELECT RAISE(ABORT, "Este cliente ja tem demasiadas requisicoes por entregar");
+END
+;
+
+
+/*CANCELA A REQUISICAO SE NAO HOUVEREM COPIAS DO ITEM DISPONIVEIS PARA REQUISICAO(NUMERO DE REQUISICOES POR ENTREGAR DAQUELE ITEM MAIORES OU IGUAIS AO NUMERO TOTAL DE COPIAS DO ITEM)*/
+CREATE TRIGGER itemIndisponivel
+BEFORE INSERT ON Requisicao
+FOR EACH ROW
+WHEN (	SELECT disponibilidade
+		FROM(	SELECT Item.idItem, numeroTotal - count(*) as disponibilidade
+				FROM Requisicao natural join Item
+				GROUP BY nome
+				HAVING dataEntrega is NULL
+				UNION
+				SELECT Item.idItem, numeroTotal as disponibilidade
+				FROM Item
+				WHERE idItem not in (
+					SELECT idItem
+					FROM Requisicao natural join Item
+					GROUP BY nome
+					HAVING dataEntrega is NULL))
+		WHERE 	idItem = NEW.idItem) <= 0
+BEGIN
+	SELECT RAISE (ABORT, "Nao ha copias deste item disponiveis para requisicao");
 END
 ;
