@@ -5,7 +5,7 @@
 PRAGMA foreign_keys = ON;
 
 /*Lista de itens actualmente requisitados e Cliente que requisitou*/
-SELECT Pessoa.nome AS Cliente, Item.nome as Item
+SELECT Pessoa.idPessoa AS Cliente, Item.nome as Item
 FROM Pessoa, Requisicao, Item, Cliente
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 	  Cliente.idPessoa = Requisicao.idPessoa AND
@@ -50,11 +50,28 @@ WHERE disponibilidade > 0;
 
 
 /*Nacionalidade de todos os Clientes*/
-SELECT Pessoa.idPessoa, Pessoa.nome, nomePais
-FROM Pessoa, Cliente, Nacionalidade
+SELECT Pessoa.nome, dataNascimento, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime('%m-%d', 'now') < strftime('%m-%d', dataNascimento))) as idade , nomePais as Nacionalidade, morada, requisicoes
+FROM Pessoa, Nacionalidade, Cliente NATURAL JOIN (
+		SELECT Cliente.idPessoa, COUNT(*) as requisicoes
+		FROM Pessoa, Requisicao, Item, Cliente
+		WHERE Pessoa.idPessoa = Cliente.idPessoa AND
+			  Cliente.idPessoa = Requisicao.idPessoa AND
+			  Requisicao.idItem = Item.idItem AND
+			  Requisicao.dataEntrega is NULL
+		GROUP BY Cliente.idPessoa
+		UNION
+		SELECT Cliente.idPessoa, 0 as requisicoes
+		FROM Cliente
+		WHERE Cliente.idPessoa not in(	SELECT Cliente.idPessoa
+										FROM Requisicao, Item, Cliente
+										WHERE  Cliente.idPessoa = Requisicao.idPessoa AND
+											  Requisicao.idItem = Item.idItem AND
+											  Requisicao.dataEntrega is NULL
+										GROUP BY Cliente.idPessoa)
+		)
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 		Nacionalidade.idPessoa = Pessoa.idPessoa
-ORDER BY Pessoa.idPessoa;
+ORDER BY Pessoa.nome;
 
 /*Seccoes ordenadas por piso e com o respectivo funcionario*/
 SELECT Piso.numero as piso, Seccao.nome as seccao, Pessoa.nome as funcionario

@@ -173,7 +173,7 @@ INSERT INTO ClubeLeitores VALUES ('Amigos dos Livros');
 INSERT INTO ClubeLeitores VALUES ('Leitura em Conselho');
 
 INSERT INTO Cliente VALUES(5, 'Rua Costa Cabral n4 Porto', 'Amigos dos Livros');
-INSERT INTO Cliente VALUES(6, 'Praça Araujo Pacheco n23, Porto', 'Amigos dos Livros');
+INSERT INTO Cliente VALUES(6, 'Praca Araujo Pacheco n23, Porto', 'Amigos dos Livros');
 INSERT INTO Cliente VALUES(7, 'Rua Elisio Santos n8 6 Dt. Porto', 'Amigos dos Livros');
 INSERT INTO Cliente VALUES(8, 'Rua To Darte n131 Porto', 'Leitura em Conselho');
 INSERT INTO Cliente VALUES(9, 'Praca Americo Balau n19, 12 Esq. Porto', 'Leitura em Conselho');
@@ -204,6 +204,11 @@ INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(10, 'Portugal');
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(11, 'Portugal');
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(12, 'Portugal');
 INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(13, 'Portugal');
+
+INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(17, 'EUA');
+INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(18, 'EUA');
+INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(19, 'Portugal');
+INSERT INTO Nacionalidade(idPessoa, nomePais) VALUES(20, 'Portugal');
 
 /*INSERT INTO Pertence(idPessoa, nomeClube) VALUES(5, 'Amigos dos Livros');
 INSERT INTO Pertence(idPessoa, nomeClube) VALUES(6, 'Amigos dos Livros');
