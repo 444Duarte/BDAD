@@ -4,13 +4,38 @@
 .nullvalue NULL
 PRAGMA foreign_keys = ON;
 
-/*Lista de itens actualmente requisitados e Cliente que requisitou*/
-SELECT Pessoa.idPessoa AS Cliente, Item.nome as Item
-FROM Pessoa, Requisicao, Item, Cliente
-WHERE Pessoa.idPessoa = Cliente.idPessoa AND
-	  Cliente.idPessoa = Requisicao.idPessoa AND
+DROP VIEW IF EXISTS ItemDisponibilidade;
+DROP VIEW IF EXISTS listaRequisicoes;
+
+CREATE VIEW ItemDisponibilidade AS 
+SELECT *
+FROM (
+	SELECT idItem, numeroTotal - count(*) as disponibilidade
+	FROM Requisicao natural join Item
+	GROUP BY idItem
+	HAVING dataEntrega is NULL
+	UNION
+	SELECT idItem, numeroTotal as disponibilidade
+	FROM Item
+	WHERE idItem not in (
+		SELECT idItem
+		FROM Requisicao natural join Item
+		GROUP BY nome
+		HAVING dataEntrega is NULL));
+
+CREATE VIEW listaRequisicoes AS
+SELECT Cliente.idPessoa, Item.idItem
+FROM Cliente, Requisicao, Item
+WHERE Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
-	  Requisicao.dataEntrega is NULL
+	  Requisicao.dataEntrega is NULL;
+
+/*Lista de itens actualmente requisitados e Cliente que requisitou*/
+SELECT Pessoa.nome as Cliente, Item.nome as Item
+FROM Pessoa, listaRequisicoes, Item, Cliente
+WHERE 	Pessoa.idPessoa = Cliente.idPessoa AND
+		Cliente.idPessoa = listaRequisicoes.idPessoa AND
+		Item.idItem = listaRequisicoes.idItem
 ORDER BY Cliente, Item;
 
 
@@ -31,43 +56,21 @@ GROUP BY nome
 ORDER BY requisicoes DESC;
 
 /*Itens disponiveis e suas quantidades*/
-SELECT * 
-FROM(
-		SELECT nome, numeroTotal - count(*) as disponibilidade
-		FROM Requisicao natural join Item
-		GROUP BY nome
-		HAVING dataEntrega is NULL
-	UNION
-		SELECT nome, numeroTotal as disponibilidade
-		FROM Item
-		WHERE idItem not in (
-			SELECT idItem
-			FROM Requisicao natural join Item
-			GROUP BY nome
-			HAVING dataEntrega is NULL)
-)
-WHERE disponibilidade > 0;
-
+SELECT nome, disponibilidade
+FROM Item, ItemDisponibilidade
+WHERE 	Item.idItem = ItemDisponibilidade.idItem AND 
+		disponibilidade > 0
+ORDER BY nome;
 
 /*Nacionalidade de todos os Clientes*/
 SELECT Pessoa.nome, dataNascimento, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime('%m-%d', 'now') < strftime('%m-%d', dataNascimento))) as idade , nomePais as Nacionalidade, morada, requisicoes
 FROM Pessoa, Nacionalidade, Cliente NATURAL JOIN (
-		SELECT Cliente.idPessoa, COUNT(*) as requisicoes
-		FROM Pessoa, Requisicao, Item, Cliente
-		WHERE Pessoa.idPessoa = Cliente.idPessoa AND
-			  Cliente.idPessoa = Requisicao.idPessoa AND
-			  Requisicao.idItem = Item.idItem AND
-			  Requisicao.dataEntrega is NULL
-		GROUP BY Cliente.idPessoa
+		SELECT idPessoa, requisicoes
+		FROM (SELECT idPessoa, count(*) as requisicoes FROM listaRequisicoes GROUP BY idPessoa)
 		UNION
-		SELECT Cliente.idPessoa, 0 as requisicoes
+		SELECT idPessoa, 0 as requisicoes
 		FROM Cliente
-		WHERE Cliente.idPessoa not in(	SELECT Cliente.idPessoa
-										FROM Requisicao, Item, Cliente
-										WHERE  Cliente.idPessoa = Requisicao.idPessoa AND
-											  Requisicao.idItem = Item.idItem AND
-											  Requisicao.dataEntrega is NULL
-										GROUP BY Cliente.idPessoa)
+		WHERE idPessoa not in (SELECT idPessoa from listaRequisicoes)
 		)
 WHERE Pessoa.idPessoa = Cliente.idPessoa AND
 		Nacionalidade.idPessoa = Pessoa.idPessoa
@@ -83,21 +86,8 @@ WHERE 	Pessoa.idPessoa = Funcionario.idPessoa AND
 ORDER BY Piso.numero;
 
 /*Itens com a sua informaçao, com a respectiva localizaçao e disponibilidade*/
-SELECT Item.idItem, Item.nome, anoPublicacao, Editora.nome as Editora, Genero.nome as Genero, FaixaEtaria.menorIdade, FaixaEtaria.maiorIdade, Piso.numero as Piso, Seccao.nome as Seccao, disponibilidade
-FROM 	Item NATURAL JOIN(
-				SELECT idItem, numeroTotal - count(*) as disponibilidade
-				FROM Requisicao natural join Item
-				GROUP BY nome
-				HAVING dataEntrega is NULL
-			UNION
-				SELECT idItem, numeroTotal as disponibilidade
-				FROM Item
-				WHERE idItem not in (
-					SELECT idItem
-					FROM Requisicao natural join Item
-					GROUP BY nome
-					HAVING dataEntrega is NULL)
-		),
+SELECT Item.idItem as idItem, Item.nome as nome, anoPublicacao, Editora.nome as Editora, Genero.nome as Genero, FaixaEtaria.menorIdade, FaixaEtaria.maiorIdade, Piso.numero as Piso, Seccao.nome as Seccao, disponibilidade
+FROM 	Item NATURAL JOIN ItemDisponibilidade,
 		Editora, Genero, FaixaEtaria, Seccao, Piso, Prateleira
 WHERE 	Item.idItem = Prateleira.idItem AND
 		Editora.idEditora = Item.idEditora AND

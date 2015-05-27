@@ -145,9 +145,9 @@ INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(11, 'Josefa Castro', '
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(12, 'Carol Silva', '1982-02-25');
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(13, 'Roberto Ortigão', '1964-08-07');
 /*REALIZADORES*/
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(14, 'Josefa Castro', '1933-05-5');
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(15, 'Carol Silva', '1981-01-21');
-INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(16, 'Roberto Ortigão', '1967-07-07');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(14, 'Kathryn Bigelow', '1951-11-27');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(15, 'Rob Marshall', '1960-10-17');
+INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(16, 'Don Hall', '1967-07-07');
 /*ATORES*/
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(17, 'Paul Walker', '1985-03-23');
 INSERT INTO Pessoa(idPessoa, nome, dataNascimento) VALUES(18, 'Leonardo Di Caprio', '1971-03-02');
