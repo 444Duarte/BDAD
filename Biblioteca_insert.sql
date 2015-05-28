@@ -33,9 +33,9 @@ INSERT INTO Piso VALUES(3);
 /*SECCAO*/
 INSERT INTO Seccao VALUES(0,'Drama',0);
 INSERT INTO Seccao VALUES(1,'Acao/Guerra',1);
-INSERT INTO Seccao VALUES(2,'Misterio',0);
-INSERT INTO Seccao VALUES(3,'Jogos',2);
-INSERT INTO Seccao VALUES(4,'Cinema',2);
+INSERT INTO Seccao VALUES(2,'Misterio',2);
+INSERT INTO Seccao VALUES(3,'Jogos',3);
+INSERT INTO Seccao VALUES(4,'Cinema',3);
 /*EDITORA*/
 INSERT INTO Editora(idEditora, nome, morada) VALUES(0,'Scholastic Corporation', '557 Broadway New York, NY 10012 Estados Unidos');
 INSERT INTO Editora(idEditora, nome, morada) VALUES(1,'Areal Editores', 'Av. da Boavista 1471, 4100 Porto');
@@ -278,5 +278,13 @@ INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-0
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-01-23', NULL,20,0);
 
 /*Cliente a tentar requisitar um item com 0 copias disponiveis para requisitar*/
+
 INSERT INTO Requisicao(dataInicio, dataEntrega, idPessoa, idItem) VALUES('2015-04-02', '2015-04-15',5,17);
 
+/*MUDAR OS CLIENTES TODOS DO CLUBE LEITURA EM CONSELHO PARA AMIGOS DOS LIVROS*/
+
+UPDATE Cliente SET nomeClube = 'Amigos dos Livros' WHERE nomeClube = 'Leitura em Conselho';
+
+/*Cria uma seccao com um piso que não existe*/
+INSERT INTO Seccao VALUES(5,'Estudo',5);
+/**/

@@ -13,7 +13,6 @@ DROP TABLE IF EXISTS Cliente;
 DROP TABLE IF EXISTS Funcionario;
 DROP TABLE IF EXISTS Actor;
 DROP TABLE IF EXISTS Realizador;
-DROP TABLE IF EXISTS Pertence;
 DROP TABLE IF EXISTS Item;
 DROP TABLE IF EXISTS Livro;
 DROP TABLE IF EXISTS Jogo;
@@ -84,10 +83,10 @@ CREATE TABLE Realizador(
 	numFilmesRealizados	INTEGER
 );
 
-CREATE TABLE Pertence(
+/*CREATE TABLE Pertence(
 	idPessoa 	INTEGER 	PRIMARY KEY 	REFERENCES Cliente(idPessoa),
 	nomeClube 	TEXT  		REFERENCES ClubeLeitores(nome)
-);
+);*/
 
 CREATE TABLE Genero(
 	idGenero 	INTEGER 	PRIMARY KEY 	AUTOINCREMENT,
@@ -136,6 +135,7 @@ CREATE TABLE FaixaEtaria(
 	menorIdade		INTEGER,
 	maiorIdade		INTEGER
 	CHECK (menorIdade is not NULL OR maiorIdade is not NULL)
+	CHECK (menorIdade < maiorIdade)
 );
 
 CREATE TABLE Escreveu(
@@ -263,3 +263,22 @@ BEGIN
 	SELECT RAISE (ABORT, "Nao ha copias deste item disponiveis para requisicao");
 END
 ;
+
+/*APAGA UM CLUBE AUTOMATICAMENTE SE TODOS OS SEUS CLIENTES MUDAREM PARA OUTRO CLUBE*/
+CREATE TRIGGER apagaClubeVazio
+AFTER UPDATE OF nomeClube ON Cliente
+FOR EACH ROW
+BEGIN
+	DELETE FROM ClubeLeitores
+	WHERE nomeClube NOT IN (SELECT nomeClube FROM Cliente);
+END;
+
+/*QUANDO SE CRIA UMA SECCAO E O PISO NÃO EXISTIR ELE AUTOMATICAMENTE CRIA O PISO*/
+CREATE TRIGGER pisoInexistente
+BEFORE INSERT ON Seccao
+FOR EACH ROW
+WHEN (NEW.numero NOT IN (SELECT numero FROM Piso))
+BEGIN
+	INSERT INTO Piso(numero) VALUES(NEW.numero);
+END;
+

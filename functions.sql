@@ -116,3 +116,5 @@ SELECT nome, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime
 FROM Pessoa, Cliente
 WHERE 	Pessoa.idPessoa = Cliente.idPessoa
 ORDER BY idade;
+
+/**/
