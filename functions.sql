@@ -30,7 +30,7 @@ WHERE Cliente.idPessoa = Requisicao.idPessoa AND
 	  Requisicao.idItem = Item.idItem AND
 	  Requisicao.dataEntrega is NULL;
 
-/*Lista de itens actualmente requisitados e Cliente que requisitou*/
+/*Itens actualmente requisitados e Cliente que requisitou*/
 SELECT Pessoa.nome as Cliente, Item.nome as Item
 FROM Pessoa, listaRequisicoes, Item, Cliente
 WHERE 	Pessoa.idPessoa = Cliente.idPessoa AND
@@ -62,7 +62,7 @@ WHERE 	Item.idItem = ItemDisponibilidade.idItem AND
 		disponibilidade > 0
 ORDER BY nome;
 
-/*Nacionalidade de todos os Clientes*/
+/*Informação de todos os clientes*/
 SELECT Pessoa.nome, dataNascimento, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime('%m-%d', 'now') < strftime('%m-%d', dataNascimento))) as idade , nomePais as Nacionalidade, morada, requisicoes
 FROM Pessoa, Nacionalidade, Cliente NATURAL JOIN (
 		SELECT idPessoa, requisicoes
@@ -86,7 +86,7 @@ WHERE 	Pessoa.idPessoa = Funcionario.idPessoa AND
 ORDER BY Piso.numero;
 
 /*Itens com a sua informaçao, com a respectiva localizaçao e disponibilidade*/
-SELECT Item.idItem as idItem, Item.nome as nome, anoPublicacao, Editora.nome as Editora, Genero.nome as Genero, FaixaEtaria.menorIdade, FaixaEtaria.maiorIdade, Piso.numero as Piso, Seccao.nome as Seccao, disponibilidade
+SELECT Item.idItem as idItem, Item.nome as nome, anoPublicacao, Editora.nome as Editora, Genero.nome as Genero, FaixaEtaria.menorIdade, FaixaEtaria.maiorIdade, Piso.numero as Piso, Seccao.nome as Seccao, nrPrateleira as Prateleira, disponibilidade
 FROM 	Item NATURAL JOIN ItemDisponibilidade,
 		Editora, Genero, FaixaEtaria, Seccao, Piso, Prateleira
 WHERE 	Item.idItem = Prateleira.idItem AND
@@ -98,23 +98,32 @@ WHERE 	Item.idItem = Prateleira.idItem AND
 ORDER BY Item.idItem;
 
 
-/*Items para idades menores que 18 anos*/
+/*Itens para idades menores que 18 anos*/
 SELECT idItem, nome
 FROM Item, FaixaEtaria
 WHERE	Item.idFaixaEtaria = FaixaEtaria.idFaixaEtaria AND
 		(menorIdade < 18 OR menorIdade is NULL);
 
-/*Lista de Membros dos Clubes de Leitores*/
+/*Membros dos Clubes de Leitores*/
 SELECT ClubeLeitores.nomeClube, Pessoa.nome
 FROM Cliente, Pessoa, ClubeLeitores
 WHERE 	Cliente.idPessoa = Pessoa.idPessoa AND
 		Cliente.nomeClube = ClubeLeitores.nomeClube
 ORDER BY ClubeLeitores.nomeClube, Pessoa.nome;
 
-/*Lista de Clientes por ordem de idades*/
+/*Clientes por ordem de idades*/
 SELECT nome, (strftime('%Y', 'now') - strftime('%Y', dataNascimento) - (strftime('%m-%d', 'now') < strftime('%m-%d', dataNascimento))) as idade
 FROM Pessoa, Cliente
 WHERE 	Pessoa.idPessoa = Cliente.idPessoa
 ORDER BY idade;
 
-/**/
+/*Autores e os seus respetivos livros na biblioteca*/
+SELECT Pessoa.nome as Autor, Item.nome AS Livro, anoPublicacao, isbn, edicao, Editora.nome as Editora
+FROM Autor, Pessoa, Item, Livro, Editora, Escreveu, Genero
+WHERE 	Autor.idPessoa = Pessoa.idPessoa AND
+		Autor.idPessoa = Escreveu.idPessoa AND 
+		Livro.idItem = Escreveu.idItem AND
+		Livro.idItem = Item.idItem AND
+		Item.idGenero = Genero.idGenero AND
+		Item.idEditora = Editora.idEditora
+ORDER BY Pessoa.nome, anoPublicacao;
