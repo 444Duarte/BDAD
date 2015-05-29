@@ -118,7 +118,7 @@ WHERE 	Pessoa.idPessoa = Cliente.idPessoa
 ORDER BY idade;
 
 /*Autores e os seus respetivos livros na biblioteca*/
-SELECT Pessoa.nome as Autor, Item.nome AS Livro, anoPublicacao, isbn, edicao, Editora.nome as Editora
+SELECT Pessoa.nome as Autor, Item.nome AS Livro, anoPublicacao, isbn as ISBN, edicao, Editora.nome as Editora
 FROM Autor, Pessoa, Item, Livro, Editora, Escreveu, Genero
 WHERE 	Autor.idPessoa = Pessoa.idPessoa AND
 		Autor.idPessoa = Escreveu.idPessoa AND 
